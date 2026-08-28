@@ -24,7 +24,7 @@ A clean, minimal personal expense tracker built with React, Vite, and Tailwind C
 - Vite
 - Tailwind CSS
 - react-router-dom
-- Recharts (installed, not yet used — for the Analytics phase)
+- Recharts — powers the Analytics charts
 
 ## Project Structure
 
@@ -32,7 +32,7 @@ A clean, minimal personal expense tracker built with React, Vite, and Tailwind C
 src/
   components/    Layout, StatCard, ExpenseForm, ExpenseRow, FilterBar
   hooks/         useExpenses.js — expense CRUD state and logic
-  pages/         Dashboard.jsx, ExpenseListPage.jsx, AnalyticsPage.jsx (placeholder)
+  pages/         Dashboard.jsx, ExpenseListPage.jsx, AnalyticsPage.jsx
   utils/         expenses.js — Local Storage persistence, category list, stat aggregation
   App.jsx        route definitions
   main.jsx       React entry point, wraps App in BrowserRouter
@@ -52,7 +52,7 @@ Following a phased build:
 - ✅ **Phase 1 — Foundation:** project setup, routing, layout, navigation, dashboard structure
 - ✅ **Phase 2 — Expenses:** add, display, edit, delete, validation
 - ✅ **Phase 3 — Organization:** categories, search, filters, sorting
-- **Phase 4 — Analytics:** totals (done on dashboard), category breakdown, monthly stats, charts
+- ✅ **Phase 4 — Analytics:** totals (done on dashboard), category breakdown, monthly stats, charts
 - **Phase 5 — Persistence:** Local Storage (done), empty states (done)
 - **Phase 6 — Polish:** responsive design, UX improvements, error/confirmation states
 - **Phase 7 — Portfolio:** README (in progress), screenshots, deployment
