@@ -144,3 +144,49 @@ export function filterAndSortExpenses(expenses, { search, category, month, sortB
 
   return sorted;
 }
+
+/**
+ * Returns per-category totals and percentages, sorted highest first.
+ * Only includes categories that actually have spending — for the
+ * category breakdown/comparison chart.
+ */
+export function getCategoryBreakdown(expenses) {
+  const total = getTotalSpending(expenses);
+  if (total === 0) return [];
+
+  const totals = {};
+  for (const e of expenses) {
+    totals[e.category] = (totals[e.category] || 0) + e.amount;
+  }
+
+  return Object.entries(totals)
+    .map(([category, amount]) => ({
+      category,
+      amount,
+      percentage: Math.round((amount / total) * 100),
+    }))
+    .sort((a, b) => b.amount - a.amount);
+}
+
+/**
+ * Returns total spending per month, sorted chronologically (oldest
+ * first) — for the monthly spending trend chart.
+ */
+export function getMonthlySpending(expenses) {
+  const totals = {};
+
+  for (const e of expenses) {
+    const key = e.date.slice(0, 7); // "YYYY-MM"
+    totals[key] = (totals[key] || 0) + e.amount;
+  }
+
+  return Object.entries(totals)
+    .sort((a, b) => a[0].localeCompare(b[0]))
+    .map(([key, amount]) => {
+      const label = new Date(key + "-01T00:00:00").toLocaleDateString(undefined, {
+        month: "short",
+        year: "2-digit",
+      });
+      return { month: label, amount };
+    });
+}
