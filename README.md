@@ -11,10 +11,10 @@ A clean, minimal personal expense tracker built with React, Vite, and Tailwind C
 - Delete Expense — with a confirmation prompt
 - Data persists in Local Storage across page reloads
 - Client-side routing (Dashboard / Expenses / Analytics) via react-router-dom
+- Search and filtering — by title, category, month, with sort (newest/oldest/amount)
 
 ## Not yet built
 
-- Search and filtering (by title, category, date, sort order)
 - Analytics charts (category breakdown, monthly trend) — Analytics page is currently a placeholder
 - Responsive/polish pass
 
@@ -30,7 +30,7 @@ A clean, minimal personal expense tracker built with React, Vite, and Tailwind C
 
 ```
 src/
-  components/    Layout, StatCard, ExpenseForm, ExpenseRow
+  components/    Layout, StatCard, ExpenseForm, ExpenseRow, FilterBar
   hooks/         useExpenses.js — expense CRUD state and logic
   pages/         Dashboard.jsx, ExpenseListPage.jsx, AnalyticsPage.jsx (placeholder)
   utils/         expenses.js — Local Storage persistence, category list, stat aggregation
@@ -51,7 +51,7 @@ Following a phased build:
 
 - ✅ **Phase 1 — Foundation:** project setup, routing, layout, navigation, dashboard structure
 - ✅ **Phase 2 — Expenses:** add, display, edit, delete, validation
-- **Phase 3 — Organization:** categories (done), search, filters, sorting
+- ✅ **Phase 3 — Organization:** categories, search, filters, sorting
 - **Phase 4 — Analytics:** totals (done on dashboard), category breakdown, monthly stats, charts
 - **Phase 5 — Persistence:** Local Storage (done), empty states (done)
 - **Phase 6 — Polish:** responsive design, UX improvements, error/confirmation states
