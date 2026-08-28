@@ -1,12 +1,26 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useExpenses } from "../hooks/useExpenses";
 import ExpenseRow from "../components/ExpenseRow";
 import ExpenseForm from "../components/ExpenseForm";
+import FilterBar from "../components/FilterBar";
+import { getAvailableMonths, filterAndSortExpenses } from "../utils/expenses";
 
 export default function ExpenseListPage() {
   const { expenses, addExpense, updateExpense, deleteExpense } = useExpenses();
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingExpense, setEditingExpense] = useState(null);
+
+  const [search, setSearch] = useState("");
+  const [category, setCategory] = useState("");
+  const [month, setMonth] = useState("");
+  const [sortBy, setSortBy] = useState("newest");
+
+  const availableMonths = useMemo(() => getAvailableMonths(expenses), [expenses]);
+
+  const filteredExpenses = useMemo(
+    () => filterAndSortExpenses(expenses, { search, category, month, sortBy }),
+    [expenses, search, category, month, sortBy]
+  );
 
   const openAddForm = () => {
     setEditingExpense(null);
@@ -50,15 +64,35 @@ export default function ExpenseListPage() {
         </button>
       </div>
 
+      {expenses.length > 0 && (
+        <FilterBar
+          search={search}
+          onSearchChange={setSearch}
+          category={category}
+          onCategoryChange={setCategory}
+          month={month}
+          onMonthChange={setMonth}
+          availableMonths={availableMonths}
+          sortBy={sortBy}
+          onSortChange={setSortBy}
+        />
+      )}
+
       {expenses.length === 0 ? (
         <div className="bg-white rounded-card border border-slate-100 p-8 text-center">
           <p className="text-sm text-slate-400">
             No expenses yet. Add your first one to get started.
           </p>
         </div>
+      ) : filteredExpenses.length === 0 ? (
+        <div className="bg-white rounded-card border border-slate-100 p-8 text-center">
+          <p className="text-sm text-slate-400">
+            No expenses match your filters.
+          </p>
+        </div>
       ) : (
         <div className="flex flex-col gap-2">
-          {expenses.map((expense) => (
+          {filteredExpenses.map((expense) => (
             <ExpenseRow
               key={expense.id}
               expense={expense}

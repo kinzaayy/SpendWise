@@ -80,3 +80,67 @@ export function getTopCategory(expenses) {
 
   return Object.entries(totals).sort((a, b) => b[1] - a[1])[0][0];
 }
+
+/**
+ * Returns the distinct year-month values present in the expenses,
+ * newest first, as { key: "YYYY-MM", label: "August 2026" } objects —
+ * for populating a month filter dropdown.
+ */
+export function getAvailableMonths(expenses) {
+  const seen = new Map();
+
+  for (const e of expenses) {
+    const key = e.date.slice(0, 7); // "YYYY-MM"
+    if (!seen.has(key)) {
+      const label = new Date(e.date + "T00:00:00").toLocaleDateString(undefined, {
+        month: "long",
+        year: "numeric",
+      });
+      seen.set(key, label);
+    }
+  }
+
+  return Array.from(seen.entries())
+    .sort((a, b) => b[0].localeCompare(a[0]))
+    .map(([key, label]) => ({ key, label }));
+}
+
+/**
+ * Applies search, category filter, and month filter, then sorts.
+ * sortBy: "newest" | "oldest" | "amount-desc" | "amount-asc"
+ */
+export function filterAndSortExpenses(expenses, { search, category, month, sortBy }) {
+  let result = expenses;
+
+  if (search.trim()) {
+    const query = search.trim().toLowerCase();
+    result = result.filter((e) => e.title.toLowerCase().includes(query));
+  }
+
+  if (category) {
+    result = result.filter((e) => e.category === category);
+  }
+
+  if (month) {
+    result = result.filter((e) => e.date.slice(0, 7) === month);
+  }
+
+  const sorted = [...result];
+  switch (sortBy) {
+    case "oldest":
+      sorted.sort((a, b) => a.date.localeCompare(b.date));
+      break;
+    case "amount-desc":
+      sorted.sort((a, b) => b.amount - a.amount);
+      break;
+    case "amount-asc":
+      sorted.sort((a, b) => a.amount - b.amount);
+      break;
+    case "newest":
+    default:
+      sorted.sort((a, b) => b.date.localeCompare(a.date));
+      break;
+  }
+
+  return sorted;
+}
