@@ -9,7 +9,7 @@ function formatDate(dateStr) {
 
 export default function ExpenseRow({ expense, onEdit, onDelete }) {
   return (
-    <div className="flex items-center justify-between px-4 py-3 bg-white rounded-card border border-slate-100">
+    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 px-4 py-3 bg-white rounded-card border border-slate-100">
       <div className="flex flex-col">
         <span className="text-sm font-medium text-slate-700">{expense.title}</span>
         <span className="text-xs text-slate-400">
@@ -17,7 +17,7 @@ export default function ExpenseRow({ expense, onEdit, onDelete }) {
         </span>
       </div>
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center justify-between sm:justify-end gap-4">
         <span className="text-sm font-semibold text-slate-700">
           ${expense.amount.toFixed(2)}
         </span>

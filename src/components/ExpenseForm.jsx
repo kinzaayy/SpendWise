@@ -50,6 +50,27 @@ export default function ExpenseForm({ initialExpense, onSubmit, onCancel }) {
 
   const isEditing = Boolean(initialExpense);
 
+  const isDirty = () => {
+    const baseline = initialExpense
+      ? {
+          title: initialExpense.title,
+          amount: String(initialExpense.amount),
+          category: initialExpense.category,
+          date: initialExpense.date,
+          note: initialExpense.note || "",
+        }
+      : EMPTY_FORM;
+
+    return Object.keys(baseline).some((key) => form[key] !== baseline[key]);
+  };
+
+  const handleCancel = () => {
+    if (isDirty() && !window.confirm("Discard unsaved changes?")) {
+      return;
+    }
+    onCancel();
+  };
+
   const handleChange = (field) => (e) => {
     setForm((prev) => ({ ...prev, [field]: e.target.value }));
   };
@@ -75,7 +96,7 @@ export default function ExpenseForm({ initialExpense, onSubmit, onCancel }) {
   return (
     <div
       className="fixed inset-0 bg-black/40 flex items-center justify-center px-4 z-50"
-      onClick={onCancel}
+      onClick={handleCancel}
     >
       <form
         onSubmit={handleSubmit}
@@ -164,7 +185,7 @@ export default function ExpenseForm({ initialExpense, onSubmit, onCancel }) {
           </button>
           <button
             type="button"
-            onClick={onCancel}
+            onClick={handleCancel}
             className="flex-1 px-4 py-2 rounded-full bg-slate-100 text-slate-600 font-medium hover:bg-slate-200 transition"
           >
             Cancel
