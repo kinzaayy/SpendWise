@@ -4,6 +4,12 @@ A clean, minimal personal expense tracker built with React, Vite, and Tailwind C
 
 **Live:** [spend-wise-murex-theta.vercel.app](https://spend-wise-murex-theta.vercel.app/)
 
+## Screenshots
+
+| Dashboard | Expenses | Analytics |
+|---|---|---|
+| ![Dashboard](./screenshots/dashboard.png) | ![Expenses](./screenshots/expenses.png) | ![Analytics](./screenshots/analytics.png) |
+
 ## Features
 
 - **Dashboard** — total spending, this month's spending, expense count, top category, recent transactions
